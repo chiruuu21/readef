@@ -12,105 +12,148 @@ struct ReadingView: View {
     let document: ReadingDocument
     @ObservedObject var fbManager = FirebaseManager.shared
     
-    // Adaptive Settings (Milestone 3)
-    @State private var settings = ReadingSettings()
-    @State private var showSettings = false
+    // Settings
+    @State private var fontSize: CGFloat = 18
+    @State private var lineSpacing: CGFloat = 8
+    @State private var fontFamily: String = "System"
+    @State private var themeColor: Color = .white
+    @State private var textColor: Color = .black
     
-    // TTS (Milestone 3)
+    // TTS
     let synthesizer = AVSpeechSynthesizer()
     @State private var isSpeaking = false
     
+    // UI State
+    @State private var showSettings = false
+
     var body: some View {
         ZStack {
-            backgroundColor(for: settings.themeColor)
-                .edgesIgnoringSafeArea(.all)
+            themeColor.ignoresSafeArea()
             
-            ScrollView {
-                Text(document.extractedText ?? "No content available")
-                    .font(.custom(settings.fontFamily, size: settings.fontSize))
-                    .lineSpacing(settings.lineSpacing)
-                    .foregroundColor(textColor(for: settings.themeColor))
+            VStack {
+                // Custom Toolbar for TTS
+                HStack {
+                    Spacer()
+                    Button(action: toggleTTS) {
+                        Image(systemName: isSpeaking ? "pause.circle.fill" : "play.circle.fill")
+                            .font(.largeTitle)
+                            .foregroundColor(.blue)
+                    }
                     .padding()
-            }
-        }
-        .navigationTitle(document.title)
-        .toolbar {
-            ToolbarItemGroup(placement: .navigationBarTrailing) {
-                Button(action: toggleTTS) {
-                    Image(systemName: isSpeaking ? "speaker.slash.fill" : "speaker.wave.2.fill")
                 }
                 
+                ScrollView {
+                    Text(document.extractedText ?? "No content.")
+                        .font(.system(size: fontSize, design: getFontDesign()))
+                        .lineSpacing(lineSpacing)
+                        .foregroundColor(textColor)
+                        .padding()
+                }
+            }
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: { showSettings.toggle() }) {
                     Image(systemName: "textformat.size")
                 }
             }
         }
         .sheet(isPresented: $showSettings) {
-            SettingsView(settings: $settings)
-                .presentationDetents([.medium])
+            ReadingSettingsSheet(
+                fontSize: $fontSize,
+                lineSpacing: $lineSpacing,
+                fontFamily: $fontFamily,
+                themeColor: $themeColor,
+                textColor: $textColor
+            )
+            .presentationDetents([.medium, .large])
         }
         .onDisappear {
             synthesizer.stopSpeaking(at: .immediate)
         }
     }
     
-    // Helpers
     func toggleTTS() {
         if isSpeaking {
-            synthesizer.stopSpeaking(at: .immediate)
+            synthesizer.pauseSpeaking(at: .immediate)
             isSpeaking = false
         } else {
-            let utterance = AVSpeechUtterance(string: document.extractedText ?? "")
-            utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-            synthesizer.speak(utterance)
+            if synthesizer.isPaused {
+                synthesizer.continueSpeaking()
+            } else {
+                let utterance = AVSpeechUtterance(string: document.extractedText ?? "")
+                utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+                synthesizer.speak(utterance)
+            }
             isSpeaking = true
         }
     }
     
-    func backgroundColor(for theme: ThemeColor) -> Color {
-        switch theme {
-        case .sepia: return Color(red: 0.98, green: 0.95, blue: 0.85)
-        case .night: return .black
-        case .highContrast: return .yellow
-        default: return .white
-        }
-    }
-    
-    func textColor(for theme: ThemeColor) -> Color {
-        switch theme {
-        case .night: return .white
-        case .highContrast: return .black
-        default: return .black
+    func getFontDesign() -> Font.Design {
+        switch fontFamily {
+        case "Serif": return .serif
+        case "Monospaced": return .monospaced
+        default: return .default
         }
     }
 }
 
-// Adaptive Settings UI
-struct SettingsView: View {
-    @Binding var settings: ReadingSettings
+struct ReadingSettingsSheet: View {
+    @Binding var fontSize: CGFloat
+    @Binding var lineSpacing: CGFloat
+    @Binding var fontFamily: String
+    @Binding var themeColor: Color
+    @Binding var textColor: Color
     
     var body: some View {
-        Form {
-            Section(header: Text("Appearance")) {
-                Picker("Theme", selection: $settings.themeColor) {
-                    ForEach(ThemeColor.allCases) { theme in
-                        Text(theme.rawValue).tag(theme)
+        NavigationView {
+            Form {
+                Section(header: Text("Display")) {
+                    Stepper("Font Size: \(Int(fontSize))", value: $fontSize, in: 12...32)
+                    Stepper("Line Spacing: \(Int(lineSpacing))", value: $lineSpacing, in: 0...20)
+                }
+                
+                Section(header: Text("Font Style")) {
+                    Picker("Font", selection: $fontFamily) {
+                        Text("System").tag("System")
+                        Text("Serif").tag("Serif")
+                        Text("Monospaced").tag("Monospaced")
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                }
+                
+                Section(header: Text("Theme")) {
+                    HStack(spacing: 20) {
+                        ThemeButton(color: .white, text: .black, name: "Light", action: setTheme)
+                        ThemeButton(color: Color(red: 0.96, green: 0.93, blue: 0.88), text: .black, name: "Sepia", action: setTheme)
+                        ThemeButton(color: .black, text: .white, name: "Dark", action: setTheme)
                     }
                 }
-                .pickerStyle(SegmentedPickerStyle())
             }
-            
-            Section(header: Text("Typography")) {
-                Stepper("Font Size: \(Int(settings.fontSize))", value: $settings.fontSize, in: 12...36)
-                Stepper("Line Spacing: \(Int(settings.lineSpacing))", value: $settings.lineSpacing, in: 0...20)
-                
-                Picker("Font", selection: $settings.fontFamily) {
-                    Text("San Francisco").tag("San Francisco")
-                    Text("Serif").tag("Times New Roman")
-                    Text("Monospaced").tag("Courier New")
-                    // Milestone 3: Dyslexia friendly could be added here if you add the font file
-                }
-            }
+            .navigationTitle("Reading Settings")
+        }
+    }
+    
+    func setTheme(bg: Color, txt: Color) {
+        themeColor = bg
+        textColor = txt
+    }
+}
+
+struct ThemeButton: View {
+    let color: Color
+    let text: Color
+    let name: String
+    let action: (Color, Color) -> Void
+    
+    var body: some View {
+        Button(action: { action(color, text) }) {
+            Circle()
+                .fill(color)
+                .frame(width: 40, height: 40)
+                .overlay(Circle().stroke(Color.gray, lineWidth: 1))
+                .overlay(Text("Aa").foregroundColor(text).font(.caption))
         }
     }
 }

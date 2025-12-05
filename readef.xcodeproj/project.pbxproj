@@ -21,10 +21,14 @@
 		C3B806042EE0CBF300DB5759 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B806032EE0CBF300DB5759 /* FirebaseManager.swift */; };
 		C3B806062EE0CC2C00DB5759 /* DocumentParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B806052EE0CC2C00DB5759 /* DocumentParser.swift */; };
 		C3B806082EE0CC4400DB5759 /* ReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B806072EE0CC4400DB5759 /* ReadingView.swift */; };
-		C3B8060A2EE0CC8900DB5759 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B806092EE0CC8900DB5759 /* DashboardView.swift */; };
+		C3B8060A2EE0CC8900DB5759 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B806092EE0CC8900DB5759 /* LibraryView.swift */; };
 		C3B8060C2EE0CD4600DB5759 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C3B8060B2EE0CD4600DB5759 /* FirebaseAnalytics */; };
 		C3B8060E2EE0D1B100DB5759 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3B8060D2EE0D1B100DB5759 /* GoogleService-Info.plist */; };
 		C3B806102EE0D67700DB5759 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B8060F2EE0D67700DB5759 /* StatsView.swift */; };
+		C3B806122EE0FC1600DB5759 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B806112EE0FC1600DB5759 /* MainTabView.swift */; };
+		C3B806142EE0FC8F00DB5759 /* UploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B806132EE0FC8F00DB5759 /* UploadView.swift */; };
+		C3B806162EE0FCAA00DB5759 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B806152EE0FCAA00DB5759 /* UserProfileView.swift */; };
+		C3B806182EE0FFA400DB5759 /* EditDocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B806172EE0FFA400DB5759 /* EditDocumentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,9 +63,13 @@
 		C3B806032EE0CBF300DB5759 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		C3B806052EE0CC2C00DB5759 /* DocumentParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentParser.swift; sourceTree = "<group>"; };
 		C3B806072EE0CC4400DB5759 /* ReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingView.swift; sourceTree = "<group>"; };
-		C3B806092EE0CC8900DB5759 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		C3B806092EE0CC8900DB5759 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 		C3B8060D2EE0D1B100DB5759 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C3B8060F2EE0D67700DB5759 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		C3B806112EE0FC1600DB5759 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		C3B806132EE0FC8F00DB5759 /* UploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadView.swift; sourceTree = "<group>"; };
+		C3B806152EE0FCAA00DB5759 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
+		C3B806172EE0FFA400DB5759 /* EditDocumentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDocumentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,8 +133,12 @@
 				C3B806032EE0CBF300DB5759 /* FirebaseManager.swift */,
 				C3B806052EE0CC2C00DB5759 /* DocumentParser.swift */,
 				C3B806072EE0CC4400DB5759 /* ReadingView.swift */,
-				C3B806092EE0CC8900DB5759 /* DashboardView.swift */,
+				C3B806092EE0CC8900DB5759 /* LibraryView.swift */,
 				C3B8060F2EE0D67700DB5759 /* StatsView.swift */,
+				C3B806112EE0FC1600DB5759 /* MainTabView.swift */,
+				C3B806132EE0FC8F00DB5759 /* UploadView.swift */,
+				C3B806152EE0FCAA00DB5759 /* UserProfileView.swift */,
+				C3B806172EE0FFA400DB5759 /* EditDocumentView.swift */,
 			);
 			path = readef;
 			sourceTree = "<group>";
@@ -297,10 +309,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3B806062EE0CC2C00DB5759 /* DocumentParser.swift in Sources */,
+				C3B806182EE0FFA400DB5759 /* EditDocumentView.swift in Sources */,
+				C3B806142EE0FC8F00DB5759 /* UploadView.swift in Sources */,
 				C3B806042EE0CBF300DB5759 /* FirebaseManager.swift in Sources */,
+				C3B806122EE0FC1600DB5759 /* MainTabView.swift in Sources */,
 				C3B806022EE0CBB000DB5759 /* Models.swift in Sources */,
-				C3B8060A2EE0CC8900DB5759 /* DashboardView.swift in Sources */,
+				C3B8060A2EE0CC8900DB5759 /* LibraryView.swift in Sources */,
 				C3B806102EE0D67700DB5759 /* StatsView.swift in Sources */,
+				C3B806162EE0FCAA00DB5759 /* UserProfileView.swift in Sources */,
 				C3B806082EE0CC4400DB5759 /* ReadingView.swift in Sources */,
 				C3B805D12EE0C97A00DB5759 /* ContentView.swift in Sources */,
 				C3B805CF2EE0C97A00DB5759 /* readefApp.swift in Sources */,

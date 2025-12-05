@@ -34,14 +34,14 @@ struct ContentView: View {
     @State private var isSignUp = false
     
     var body: some View {
-        if fbManager.currentUser != nil {
-            // User is logged in, show Dashboard
-            DashboardView()
-        } else {
-            // User needs to auth
-            authView
+            if fbManager.currentUser != nil {
+                // New Main Tab Container
+                MainTabView()
+            } else {
+                // Login Screen
+                authView
+            }
         }
-    }
     
     var authView: some View {
         VStack(spacing: 20) {
